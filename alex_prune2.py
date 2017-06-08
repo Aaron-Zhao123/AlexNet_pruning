@@ -81,4 +81,11 @@ def test_data_flow():
         print(dp)
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--gpu', help='ids of GPUS')
+    parser.add_argument('--data', help='imagenet dir')
+    parser.add_argument('--load', help='load a model, .npy')
+    args = parser.parse_args()
+    if (args.gpu):
+        os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
     test_data_flow()
