@@ -79,7 +79,8 @@ def test_data_flow():
     data_test.reset_state()
     generator = data_test.get_data()
     for dp in generator:
-        print(dp)
+        print(type(dp))
+        # print(dp)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
