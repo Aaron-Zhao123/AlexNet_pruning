@@ -13,6 +13,9 @@ from tensorpack.tfutils.summary import *
 from tensorpack.tfutils.varreplace import remap_variables
 
 
+TOTAL_BATCH_SIZE = 128
+BATCH_SIZE = TOTAL_BATCH_SIZE // NR_GPU
+
 def get_data(dataset_name):
     isTrain = dataset_name == 'train'
     ds = dataset.ILSVRC12(args.data, dataset_name, shuffle=isTrain)
