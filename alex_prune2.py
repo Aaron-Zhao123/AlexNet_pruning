@@ -93,6 +93,6 @@ if __name__ == '__main__':
     # NR_GPU = len(args.gpu.split(','))
     # TOTAL_BATCH_SIZE = 128
     # global BATCH_SIZE
-    BATCH_SIZE = TOTAL_BATCH_SIZE // NR_GPU
+    # BATCH_SIZE = TOTAL_BATCH_SIZE // NR_GPU
 
     test_data_flow()
