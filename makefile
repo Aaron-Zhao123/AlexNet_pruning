@@ -10,7 +10,8 @@ cpurun:
 # example: make GPU=0,1 gpurun
 # this activates GPU0 and GPU1 for running the thread
 gpurun:
-	CUDA_VISIBLE_DEVICES=$(GPU) python run.py
+	python alex_prune2.py --gpu 3 --data /local/scratch/yaz21/ImageNetData/CLS-LOC
+	# CUDA_VISIBLE_DEVICES=$(GPU) python run.py
 git-add:
 	git add -A
 	git commit -m"auto git add all"
