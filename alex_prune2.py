@@ -13,7 +13,7 @@ from tensorpack.tfutils.summary import *
 from tensorpack.tfutils.varreplace import remap_variables
 
 
-def get_data(dataset_name):
+def get_data(dataset_name, BATCH_SIZE):
     isTrain = dataset_name == 'train'
     ds = dataset.ILSVRC12(args.data, dataset_name, shuffle=isTrain)
 
@@ -73,8 +73,9 @@ def get_data(dataset_name):
     return ds
 
 def test_data_flow():
-    data_train = get_data('train')
-    data_test = get_data('val')
+    BATCH_SIZE = 128
+    data_train = get_data('train', BATCH_SIZE)
+    data_test = get_data('val', BATCH_SIZE)
     data_test.reset_state()
     generator = data_test.get_data()
     for dp in generator:
@@ -89,8 +90,9 @@ if __name__ == '__main__':
     if (args.gpu):
         os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
-    NR_GPU = len(args.gpu.split(','))
-    TOTAL_BATCH_SIZE = 128
-    global BATCH_SIZE = TOTAL_BATCH_SIZE // NR_GPU
+    # NR_GPU = len(args.gpu.split(','))
+    # TOTAL_BATCH_SIZE = 128
+    # global BATCH_SIZE
+    BATCH_SIZE = TOTAL_BATCH_SIZE // NR_GPU
 
     test_data_flow()
