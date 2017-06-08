@@ -80,6 +80,8 @@ def test_data_flow():
     generator = data_test.get_data()
     for dp in generator:
         print(type(dp))
+        print(type(dp[0]), type(dp[1]))
+        print(np.shape(dp[0]), np.shape(dp[1]))
         # print(dp)
 
 if __name__ == '__main__':
