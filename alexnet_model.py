@@ -157,14 +157,14 @@ class alexnet(object):
             with open(weights_path+'.npy', 'rb') as f:
                 weights, biases = pickle.load(f)
             for i, key in enumerate(self.keys):
-                _init_layerwise_variables(w_shape = kernel_shapes[i],
+                self._init_layerwise_variables(w_shape = kernel_shapes[i],
                     b_shape = biase_shape[i],
                     name = key,
                     w_init = weights[key],
                     b_init = biases[key])
         else:
             for i,key in enumerate(self.keys):
-                _init_layerwise_variables(w_shape = kernel_shapes[i],
+                self._init_layerwise_variables(w_shape = kernel_shapes[i],
                     b_shape = biase_shape[i],
                     name = key)
 
