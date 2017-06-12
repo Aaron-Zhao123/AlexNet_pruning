@@ -6,9 +6,9 @@ import pickle
 gives back self.pred, self.
 """
 class alexnet(object):
-    def __init__(self, inputs, isload,):
-        image, label = inputs
-        image = image / 255.0
+    def __init__(self, isload,):
+        # image, label = inputs
+        # image = image / 255.0
         # return two placeholders: self.images and self.labels
         _get_placeholders()
         # intialize variables in their namescopes
