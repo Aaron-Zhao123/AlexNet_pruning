@@ -12,6 +12,8 @@ from tensorpack.tfutils.symbolic_functions import *
 from tensorpack.tfutils.summary import *
 from tensorpack.tfutils.varreplace import remap_variables
 
+import alexnet_model
+
 
 def get_data(dataset_name, BATCH_SIZE):
     isTrain = dataset_name == 'train'
@@ -81,7 +83,7 @@ def test_data_flow():
     data_test.reset_state()
     generator = data_test.get_data()
 
-    model = alexnet(isLoad)
+    model = alexnet_model.alexnet(isLoad)
     model.conv_network(isLoad)
 
     # for dp in generator:
