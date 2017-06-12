@@ -6,14 +6,14 @@ import pickle
 gives back self.pred, self.
 """
 class alexnet(object):
-    def __init__(self, isload,):
+    def __init__(self, isLoad):
         # image, label = inputs
         # image = image / 255.0
         # return two placeholders: self.images and self.labels
         self._get_placeholders()
         # intialize variables in their namescopes
-        self._get_variables(isload)
-        self._init_weight_masks()
+        self._get_variables(isLoad)
+        self._init_weight_masks(isLoad)
 
     def error_rates(logits, label, topk = 1):
         return tf.cast(tf.logical_not(tf.nn.in_top_k(logits, label, topk)),
@@ -153,6 +153,8 @@ class alexnet(object):
             [4096],
             [1000]
         ]
+        self.weight_shapes = kernel_shapes
+        self.biase_shapes = biase_shape
         if isload:
             with open(weights_path+'.npy', 'rb') as f:
                 weights, biases = pickle.load(f)
@@ -181,7 +183,8 @@ class alexnet(object):
             w = tf.get_variable('w', w_shape, initializer = w_init)
             b = tf.get_variable('b', b_shape, initializer = b_init)
 
-    def _init_weight_masks(self, is_load, names, w_shapes, b_shapes):
+    def _init_weight_masks(self, is_load):
+        names = self.keys
         if is_load:
             with open(weights_path+'mask.npy', 'rb') as f:
                 self.weights_masks, self.biases_masks= pickle.load(f)
@@ -189,8 +192,8 @@ class alexnet(object):
             self.weights_masks = {}
             self.biases_masks = {}
             for i, key in enumerate(names):
-                self.weights_masks[key] = np.ones(w_shapes[i])
-                self.biases_masks[key] = np.ones(b_shapes[i])
+                self.weights_masks[key] = np.ones(self.weight_shapes[key])
+                self.biases_masks[key] = np.ones(self.biase_shapes[key])
 
     def _apply_a_mask(self, mask, var):
         return (var * mask)
