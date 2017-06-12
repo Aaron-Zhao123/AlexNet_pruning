@@ -192,8 +192,8 @@ class alexnet(object):
             self.weights_masks = {}
             self.biases_masks = {}
             for i, key in enumerate(names):
-                self.weights_masks[key] = np.ones(self.weight_shapes[key])
-                self.biases_masks[key] = np.ones(self.biase_shapes[key])
+                self.weights_masks[key] = np.ones(self.weight_shapes[i])
+                self.biases_masks[key] = np.ones(self.biase_shapes[i])
 
     def _apply_a_mask(self, mask, var):
         return (var * mask)
