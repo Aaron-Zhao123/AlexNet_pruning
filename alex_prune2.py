@@ -84,8 +84,21 @@ def test():
     # generator = data_test.get_data()
 
     model = alexnet_model.alexnet(isLoad)
-    inference(model)
+    # inference(model)
+    logits = model.pred
+    prob = tf.nn.softmax(logits)
+    top5_error = error_rates(topk = 5)
 
+    data_test = get_data('val', BATCH_SIZE)
+    data_test.reset_state()
+    generator = data_test.get_data()
+    with tf.Session() as sess:
+        for dp in generator:
+            top5_val = sess.run(top5_error, feed_dict = {
+                model.images:dp[0]
+                model.labels:dp[1]
+                model.train_phase: False
+            })
     # for dp in generator:
     #     print(type(dp))
     #     print(type(dp[0]), type(dp[1]))
