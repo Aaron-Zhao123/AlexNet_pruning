@@ -124,30 +124,6 @@ class alexnet(object):
             ret = tf.nn.relu(tf.nn.bias_add(conv, b, data_format=data_format), name='output')
         return ret
 
-
-
-
-
- # Get number of input channels
-    input_channels = int(x.get_shape()[-1])
-
-  # Create lambda function for the convolution
-    convolve = lambda i, k: tf.nn.conv2d(i, k,
-                                       strides = [1, stride_y, stride_x, 1],
-                                       padding = padding)
-
-    if groups == 1:
-        conv = convolve(x, weights)
-    # In the cases of multiple groups, split inputs & weights and
-    else:
-        # Split input and weights and convolve them separately
-        input_groups = tf.split(axis = 3, num_or_size_splits=groups, value=x)
-        weight_groups = tf.split(axis = 3, num_or_size_splits=groups, value=weights)
-        output_groups = [convolve(i, k) for i,k in zip(input_groups, weight_groups)]
-        # Concat the convolved output together again
-        conv = tf.concat(axis = 3, values = output_groups)
-    return conv
-
     def _get_placeholders(self):
         self.images = tf.placeholder(tf.float32, [None, 224, 224, 3], 'input')
         self.labels = tf.placeholder(tf.int32, [None], 'label')
