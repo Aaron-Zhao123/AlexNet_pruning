@@ -106,9 +106,9 @@ def inference(model):
     with tf.Session() as sess:
         for dp in generator:
             top5_val = sess.run(top5_error, feed_dict = {
-                self.images:dp[0]
-                self.labels:dp[1]
-                self.train_phase: False
+                model.images:dp[0]
+                model.labels:dp[1]
+                model.train_phase: False
             })
 
 
