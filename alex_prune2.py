@@ -85,27 +85,7 @@ def test():
 
     model = alexnet_model.alexnet(isLoad)
     inference(model)
-    # logits = model.pred
-    # prob = tf.nn.softmax(logits)
-    # top5_error = error_rates(topk = 5)
-    #
-    # data_test = get_data('val', BATCH_SIZE)
-    # data_test.reset_state()
-    # generator = data_test.get_data()
-    # with tf.Session() as sess:
-    #     for dp in generator:
-    #         print(model.test)
-            # top5_val = sess.run([top5_error], feed_dict = {
-            #     model.images:dp[0],
-            #     model.labels:dp[1],
-            #     model.train_phase: False
-            # })
-    # for dp in generator:
-    #     print(type(dp))
-    #     print(type(dp[0]), type(dp[1]))
-    #     model.
-
-        # print(dp)
+    
 def inference(model):
     """
     continue building the graph
@@ -141,4 +121,4 @@ if __name__ == '__main__':
     # global BATCH_SIZE
     # BATCH_SIZE = TOTAL_BATCH_SIZE // NR_GPU
 
-    test_data_flow()
+    test()
