@@ -27,7 +27,7 @@ class alexnet(object):
         conv2 = self.conv_layer(conv1, 'conv2', prune = True, split = 2)
         norm2 = self.batch_norm(conv2, 'norm2', train_phase = self.isTrain)
         pool2 = self.maxpool(norm2, 'pool2', 3, 2)
-        
+
         conv3 = self.conv_layer(pool2, 'conv3', prune = True)
         norm3 = self.batch_norm(conv3, 'norm3', train_phase = self.isTrain)
         pool3 = self.maxpool(norm3, 'pool3', 3, 2)
@@ -101,7 +101,7 @@ class alexnet(object):
         return ret
 
     def conv_layer(self, x, name, padding = 'SAME', stride = 1,
-        split = 1, data_format = 'NHWC', prune = False):
+        split = 1, data_format = "NHWC", prune = False):
         with tf.variable_scope(name, reuse = True):
             w = tf.get_variable('w')
             b = tf.get_variable('b')
