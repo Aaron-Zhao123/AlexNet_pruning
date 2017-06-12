@@ -16,8 +16,8 @@ class alexnet(object):
         self._init_weight_masks(isLoad)
         self.conv_network
 
-    def error_rates(logits, label, topk = 1):
-        return tf.cast(tf.logical_not(tf.nn.in_top_k(logits, label, topk)),
+    def error_rates(topk = 1):
+        return tf.cast(tf.logical_not(tf.nn.in_top_k(self.pred, self.labels, topk)),
             tf.float32)
 
     def conv_network():

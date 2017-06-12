@@ -74,16 +74,17 @@ def get_data(dataset_name, BATCH_SIZE):
         ds = PrefetchDataZMQ(ds, min(12, multiprocessing.cpu_count()))
     return ds
 
-def test_data_flow():
+def test():
     BATCH_SIZE = 128
     isLoad = False
 
     data_train = get_data('train', BATCH_SIZE)
-    data_test = get_data('val', BATCH_SIZE)
-    data_test.reset_state()
-    generator = data_test.get_data()
+    # data_test = get_data('val', BATCH_SIZE)
+    # data_test.reset_state()
+    # generator = data_test.get_data()
 
     model = alexnet_model.alexnet(isLoad)
+    inference(model)
 
     # for dp in generator:
     #     print(type(dp))
@@ -91,6 +92,25 @@ def test_data_flow():
     #     model.
 
         # print(dp)
+def inference(model):
+    """
+    continue building the graph
+    """
+    logits = model.pred
+    prob = tf.nn.softmax(logits)
+    top5_error = error_rates(topk = 5)
+
+    data_test = get_data('val', BATCH_SIZE)
+    data_test.reset_state()
+    generator = data_test.get_data()
+    with tf.Session() as sess:
+        for dp in generator:
+            top5_val = sess.run(top5_error, feed_dict = {
+                self.images:dp[0]
+                self.labels:dp[1]
+                self.train_phase: False
+            })
+
 
 
 if __name__ == '__main__':
