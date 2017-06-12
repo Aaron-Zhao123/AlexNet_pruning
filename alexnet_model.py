@@ -23,36 +23,36 @@ class alexnet(object):
     def conv_network(self):
         imgs = self.images
 
-        conv1 = conv_layer(imgs, 'conv1', padding = 'VALID', stride = 4, prune = True)
-        conv2 = conv_layer(conv1, 'conv2', prune = True, split = 2)
-        norm2 = batch_norm(conv2, 'norm2', train_phase = self.isTrain)
-        pool2 = maxpool(norm2, 'pool2', 3, 2)
+        conv1 = self.conv_layer(imgs, 'conv1', padding = 'VALID', stride = 4, prune = True)
+        conv2 = self.conv_layer(conv1, 'conv2', prune = True, split = 2)
+        norm2 = self.batch_norm(conv2, 'norm2', train_phase = self.isTrain)
+        pool2 = self.maxpool(norm2, 'pool2', 3, 2)
+        
+        conv3 = self.conv_layer(pool2, 'conv3', prune = True)
+        norm3 = self.batch_norm(conv3, 'norm3', train_phase = self.isTrain)
+        pool3 = self.maxpool(norm3, 'pool3', 3, 2)
 
-        conv3 = conv_layer(pool2, 'conv3', prune = True)
-        norm3 = batch_norm(conv3, 'norm3', train_phase = self.isTrain)
-        pool3 = maxpool(norm3, 'pool3', 3, 2)
+        conv4 = self.conv_layer(pool3, 'conv4', prune = True, split = 2)
+        norm4 = self.batch_norm(conv4, 'norm4', train_phase = self.isTrain)
 
-        conv4 = conv_layer(pool3, 'conv4', prune = True, split = 2)
-        norm4 = batch_norm(conv4, 'norm4', train_phase = self.isTrain)
+        conv5 = self.conv_layer(norm4, 'conv5', prune = True, split = 2)
+        norm5 = self.batch_norm(conv5, 'norm5', train_phase = self.isTrain)
+        pool5 = self.maxpool(norm5, 'pool5', 3, 2, padding = 'VALID')
 
-        conv5 = conv_layer(norm4, 'conv5', prune = True, split = 2)
-        norm5 = batch_norm(conv5, 'norm5', train_phase = self.isTrain)
-        pool5 = maxpool(norm5, 'pool5', 3, 2, padding = 'VALID')
+        fc6 = fcself._layer(pool5, 'fc6', prune = True)
+        norm6 = self.batch_norm(fc6, 'norm6', train_phase = self.isTrain)
 
-        fc6 = fc_layer(pool5, 'fc6', prune = True)
-        norm6 = batch_norm(fc6, 'norm6', train_phase = self.isTrain)
+        fc7 = fcself._layer(norm6, 'fc7', prune = True)
+        norm7 = self.batch_norm(fc7, 'norm7', train_phase = self.isTrain)
 
-        fc7 = fc_layer(norm6, 'fc7', prune = True)
-        norm7 = batch_norm(fc7, 'norm7', train_phase = self.isTrain)
+        fc8 = fcself._layer(norm7, 'fc8', prune = True, apply_relu = False)
+        self.preself.d = fc8
 
-        fc8 = fc_layer(norm7, 'fc8', prune = True, apply_relu = False)
-        self.pred = fc8
-
-    def maxpool(x, name, filter_size, stride, padding = 'SAME'):
+    def maxpool(self, x, name, filter_size, stride, padding = 'SAME'):
         return tf.nn.maxpool(x, ksize = [1, filter_size, filter_size, 1],
             strides = [1, stride, strid, 1], padding = padding, name = name)
 
-    def batch_norm(x, name, train_phase, data_format = 'NHWC', epsilon = 1e-3):
+    def batch_norm(self, x, name, train_phase, data_format = 'NHWC', epsilon = 1e-3):
         """
         refs:
         1. https://github.com/ppwwyyxx/tensorpack/blob/a3674b47bfbf0c8b04aaa85d428b109fea0128ca/tensorpack/models/batch_norm.py
@@ -89,7 +89,7 @@ class alexnet(object):
             normed = tf.nn.batch_normalization(x, mean, var, beta, gamma, epsilon)
         return normed
 
-    def fc_layer(x, name, prune = False, apply_relu = True):
+    def fc_layer(self, x, name, prune = False, apply_relu = True):
         with tf.variable_scope(name, reuse = True):
             w = tf.get_variable('w')
             b = tf.get_variable('b')
@@ -100,7 +100,7 @@ class alexnet(object):
                 ret = tf.nn.relu(ret)
         return ret
 
-    def conv_layer(x, name, padding = 'SAME', stride = 1,
+    def conv_layer(self, x, name, padding = 'SAME', stride = 1,
         split = 1, data_format = 'NHWC', prune = False):
         with tf.variable_scope(name, reuse = True):
             w = tf.get_variable('w')
