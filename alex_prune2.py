@@ -84,7 +84,6 @@ def test_data_flow():
     generator = data_test.get_data()
 
     model = alexnet_model.alexnet(isLoad)
-    model.conv_network()
 
     # for dp in generator:
     #     print(type(dp))
