@@ -122,6 +122,7 @@ class alexnet(object):
     def _get_placeholders(self):
         self.images = tf.placeholder(tf.float32, [None, 224, 224, 3], 'input')
         self.labels = tf.placeholder(tf.int32, [None], 'label')
+        self.train_phase = tf.placeholder(tf.bool, name = 'isTrain')
 
     def _get_variables(self, isload, weights_path = 'DEFAULT'):
         """
