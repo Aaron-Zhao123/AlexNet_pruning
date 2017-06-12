@@ -18,7 +18,7 @@ class alexnet(object):
     def error_rates(logits, label, topk = 1):
         return tf.cast(tf.logical_not(tf.nn.in_top_k(logits, label, topk)),
             tf.float32)
-            
+
     def conv_network(isTrain):
         imgs = self.images
 
@@ -91,7 +91,7 @@ class alexnet(object):
                 mean_var_with_update,
                 lambda: (ema.average(batch_mean), ema.average(batch_var)))
             normed = tf.nn.batch_normalization(x, mean, var, beta, gamma, epsilon)
-    return normed
+        return normed
 
     def fc_layer(x, name, prune = False, apply_relu = True):
         with tf.variable_scope(name, reuse = True):
