@@ -94,11 +94,12 @@ def test():
     generator = data_test.get_data()
     with tf.Session() as sess:
         for dp in generator:
-            top5_val = sess.run(top5_error, feed_dict = {
-                model.images:dp[0]
-                model.labels:dp[1]
-                model.train_phase: False
-            })
+            print(model.test)
+            # top5_val = sess.run([top5_error], feed_dict = {
+            #     model.images:dp[0],
+            #     model.labels:dp[1],
+            #     model.train_phase: False
+            # })
     # for dp in generator:
     #     print(type(dp))
     #     print(type(dp[0]), type(dp[1]))

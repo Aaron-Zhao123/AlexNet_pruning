@@ -5,7 +5,7 @@ clean:
 
 # simple cpu run on my local machine
 cpurun:
-	python run.py
+	python alex_prune2.py
 
 # example: make GPU=0,1 gpurun
 # this activates GPU0 and GPU1 for running the thread

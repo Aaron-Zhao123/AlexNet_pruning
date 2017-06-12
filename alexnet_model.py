@@ -10,7 +10,7 @@ class alexnet(object):
         # image, label = inputs
         # image = image / 255.0
         # return two placeholders: self.images and self.labels
-        self._get_placeholders()
+        self.get_placeholders()
         # intialize variables in their namescopes
         self._get_variables(isLoad)
         self._init_weight_masks(isLoad)
@@ -120,7 +120,8 @@ class alexnet(object):
             ret = tf.nn.relu(tf.nn.bias_add(conv, b, data_format=data_format), name='output')
         return ret
 
-    def _get_placeholders(self):
+    def get_placeholders(self):
+        self.test = 'hi'
         self.images = tf.placeholder(tf.float32, [None, 224, 224, 3], 'input')
         self.labels = tf.placeholder(tf.int32, [None], 'label')
         self.train_phase = tf.placeholder(tf.bool, name = 'isTrain')
