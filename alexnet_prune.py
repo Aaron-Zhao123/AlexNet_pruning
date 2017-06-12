@@ -62,8 +62,6 @@ class Model(ModelDesc):
 
         with argscope(BatchNorm, decay=0.9, epsilon=1e-4), \
                 argscope([Conv2D, FullyConnected], use_bias=False, nl=tf.identity):
-            arg_list = ['conv0', ]
-            pruning_initializer(arg_list, )
             logits = (LinearWrap(image)
                       .Conv2D('conv0', 96, 12, stride=4, padding='VALID')
                       .apply(activate)

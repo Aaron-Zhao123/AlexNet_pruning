@@ -74,15 +74,23 @@ def get_data(dataset_name, BATCH_SIZE):
 
 def test_data_flow():
     BATCH_SIZE = 128
+    isLoad = False
+
     data_train = get_data('train', BATCH_SIZE)
     data_test = get_data('val', BATCH_SIZE)
     data_test.reset_state()
     generator = data_test.get_data()
-    for dp in generator:
-        print(type(dp))
-        print(type(dp[0]), type(dp[1]))
-        print(np.shape(dp[0]), np.shape(dp[1]))
+
+    model = alexnet(isLoad)
+    model.conv_network(isLoad)
+
+    # for dp in generator:
+    #     print(type(dp))
+    #     print(type(dp[0]), type(dp[1]))
+    #     model.
+
         # print(dp)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
