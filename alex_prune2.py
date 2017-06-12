@@ -85,14 +85,14 @@ def test():
 
     model = alexnet_model.alexnet(isLoad)
     inference(model)
-    
+
 def inference(model):
     """
     continue building the graph
     """
     logits = model.pred
     prob = tf.nn.softmax(logits)
-    top5_error = error_rates(topk = 5)
+    top5_error = model.error_rates(topk = 5)
 
     data_test = get_data('val', BATCH_SIZE)
     data_test.reset_state()
