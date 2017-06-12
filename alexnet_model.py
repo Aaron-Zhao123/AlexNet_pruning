@@ -10,10 +10,10 @@ class alexnet(object):
         # image, label = inputs
         # image = image / 255.0
         # return two placeholders: self.images and self.labels
-        _get_placeholders()
+        self._get_placeholders()
         # intialize variables in their namescopes
-        _get_variables(isload)
-        _init_weight_masks()
+        self._get_variables(isload)
+        self._init_weight_masks()
 
     def error_rates(logits, label, topk = 1):
         return tf.cast(tf.logical_not(tf.nn.in_top_k(logits, label, topk)),
