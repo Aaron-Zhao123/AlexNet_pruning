@@ -119,6 +119,7 @@ def inference(model):
                 model.isTrain: False
             })
             bar.update(i+1)
+            print(top5_val)
     bar.finish()
 
 
