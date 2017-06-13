@@ -62,7 +62,7 @@ class alexnet(object):
         ndims = len(shape)
 
         assert ndims in [2,4]
-        if n_dims == 2:
+        if ndims == 2:
             data_format = 'NHWC'
 
         if data_format == 'NCHW':
