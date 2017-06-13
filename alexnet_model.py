@@ -25,12 +25,12 @@ class alexnet(object):
 
         conv1 = self.conv_layer(imgs, 'conv1', padding = 'VALID', stride = 4, prune = True)
         lrn1 = self.lrn(conv1, 'lrn1')
-        pool1 = self.maxpool(norm2, 'pool1', 3, 2, padding = 'VALID')
+        pool1 = self.maxpool(lrn1, 'pool1', 3, 2, padding = 'VALID')
 
         conv2 = self.conv_layer(pool1, 'conv2', prune = True, split = 2)
         lrn2 = self.lrn(conv2, 'lrn2')
         # norm2 = self.batch_norm(conv2, 'norm2', train_phase = self.isTrain)
-        pool2 = self.maxpool(norm2, 'pool2', 3, 2, padding = 'VALID')
+        pool2 = self.maxpool(lrn2, 'pool2', 3, 2, padding = 'VALID')
 
         conv3 = self.conv_layer(pool2, 'conv3', prune = True)
         # norm3 = self.batch_norm(conv3, 'norm3', train_phase = self.isTrain)
