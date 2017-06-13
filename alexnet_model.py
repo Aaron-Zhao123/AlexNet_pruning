@@ -101,18 +101,20 @@ class alexnet(object):
         return ret
 
     def conv_layer(self, x, name, padding = 'SAME', stride = 1,
-        split = 1, data_format = "NHWC", prune = False):
+        split = 1, data_format = 'NHWC', prune = False):
         with tf.variable_scope(name, reuse = True):
             w = tf.get_variable('w')
             b = tf.get_variable('b')
             if prune:
                 w = w * self.weights_masks[name]
             if split == 1:
-                conv = tf.nn.conv2d(x, w, stride, padding, data_format=data_format)
+                # conv = tf.nn.conv2d(x, w, stride, padding, data_format=data_format)
+                conv = tf.nn.conv2d(x, w, stride, padding)
             else:
                 inputs = tf.split(x, split, channel_axis)
                 kernels = tf.split(w, split, 3)
-                outputs = [tf.nn.conv2d(i, k, stride, padding, data_format=data_format)
+                # outputs = [tf.nn.conv2d(i, k, stride, padding, data_format=data_format)
+                outputs = [tf.nn.conv2d(i, k, stride, padding)
                            for i, k in zip(inputs, kernels)]
                 conv = tf.concat(outputs, channel_axis)
 
