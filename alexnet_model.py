@@ -35,9 +35,9 @@ class alexnet(object):
         conv3 = self.conv_layer(pool2, 'conv3', prune = True)
         # norm3 = self.batch_norm(conv3, 'norm3', train_phase = self.isTrain)
         # pool3 = self.maxpool(norm3, 'pool3', 3, 2)
-        conv4 = self.conv_layer(pool3, 'conv4', prune = True, split = 2)
+        conv4 = self.conv_layer(conv3, 'conv4', prune = True, split = 2)
         # norm4 = self.batch_norm(conv4, 'norm4', train_phase = self.isTrain)
-        conv5 = self.conv_layer(norm4, 'conv5', prune = True, split = 2)
+        conv5 = self.conv_layer(conv4, 'conv5', prune = True, split = 2)
         # norm5 = self.batch_norm(conv5, 'norm5', train_phase = self.isTrain)
         pool5 = self.maxpool(conv5, 'pool5', 3, 2, padding = 'VALID')
 
