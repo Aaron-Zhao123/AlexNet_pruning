@@ -73,9 +73,10 @@ class alexnet(object):
         assert n_out is not None, "Input to BatchNorm cannot have unknown channels!"
 
         with tf.variable_scope(name):
-            beta = tf.Variable(tf.constant(0.0, shape = [n_out],
-                name = 'beta', trainable = True))
-            gamma = tf.Variable(tf.constant(1.0, shape = [n_out]))
+            beta = tf.Variable(tf.constant(0.0, shape = [n_out]),
+                name = 'beta', trainable = True)
+            gamma = tf.Variable(tf.constant(1.0, shape = [n_out]),
+                name = 'gamma', trainable = True)
             batch_mean, batch_var = tf.nn.moments(x, [0,1,2], name = 'moments')
             ema = tf.train.ExponentialMovingAverage(decay = 0.5)
 
