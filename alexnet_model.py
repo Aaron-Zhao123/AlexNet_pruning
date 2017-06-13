@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import pickle
+import sys
 
 """
 gives back self.pred, self.
@@ -27,19 +28,26 @@ class alexnet(object):
         pool1 = self.maxpool(conv1, 'pool1', 3, 2, padding = 'VALID')
         lrn1 = self.lrn(pool1, 'lrn1')
 
+        print(lrn1.get_shape())
         conv2 = self.conv_layer(lrn1, 'conv2', prune = True, split = 2)
         pool2 = self.maxpool(conv2, 'pool2', 3, 2, padding = 'VALID')
         lrn2 = self.lrn(pool2, 'lrn2')
         # norm2 = self.batch_norm(conv2, 'norm2', train_phase = self.isTrain)
+        print(lrn2.get_shape())
 
         conv3 = self.conv_layer(lrn2, 'conv3', prune = True)
+        print(conv3.get_shape())
         # norm3 = self.batch_norm(conv3, 'norm3', train_phase = self.isTrain)
         # pool3 = self.maxpool(norm3, 'pool3', 3, 2)
         conv4 = self.conv_layer(conv3, 'conv4', prune = True, split = 2)
+        print(conv4.get_shape())
         # norm4 = self.batch_norm(conv4, 'norm4', train_phase = self.isTrain)
         conv5 = self.conv_layer(conv4, 'conv5', prune = True, split = 2)
+        print(conv5.get_shape())
         # norm5 = self.batch_norm(conv5, 'norm5', train_phase = self.isTrain)
         pool5 = self.maxpool(conv5, 'pool5', 3, 2, padding = 'VALID')
+        print(pool5.get_shape())
+        sys.exit()
 
 
         flattened = tf.reshape(pool5, [-1, 6*6*256])
