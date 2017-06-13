@@ -18,6 +18,15 @@ class alexnet(object):
         self.conv_network()
 
     def error_rates(self,topk = 1):
+        """
+        Args:
+            self.pred: shape [B,C].
+            self.labels: shape [B].
+            topk(int): topk
+        Returns:
+            a float32 vector of length N with 0/1 values. 1 means incorrect
+            prediction.
+        """
         return tf.cast(tf.logical_not(tf.nn.in_top_k(self.pred, self.labels, topk)),
             tf.float32)
 

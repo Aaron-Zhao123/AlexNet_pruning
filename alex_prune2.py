@@ -110,6 +110,8 @@ def inference(model):
         widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
     bar.start()
 
+    n_imgs = 0
+    n_correct_pred = 0
     with tf.Session() as sess:
         sess.run(init)
         for i,dp in enumerate(generator):
@@ -118,6 +120,8 @@ def inference(model):
                 model.labels:dp[1],
                 model.isTrain: False
             })
+            n_correct_pred += np.sum(top5_val)
+            n_imgs += top5_val.size
             bar.update(i+1)
             print(top5_val)
     bar.finish()
