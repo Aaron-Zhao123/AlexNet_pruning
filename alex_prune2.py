@@ -111,7 +111,7 @@ def inference(model):
     bar.start()
 
     n_imgs = 0
-    n_correct_pred = 0
+    n_wrong_pred = 0
     with tf.Session() as sess:
         sess.run(init)
         for i,dp in enumerate(generator):
@@ -120,10 +120,11 @@ def inference(model):
                 model.labels:dp[1],
                 model.isTrain: False
             })
-            n_correct_pred += np.sum(top5_val)
+            n_wrong_pred += np.sum(top5_val)
             n_imgs += top5_val.size
             bar.update(i+1)
-            print(top5_val)
+            print(n_wrong_pred)
+            print(n_imgs)
     bar.finish()
 
 
