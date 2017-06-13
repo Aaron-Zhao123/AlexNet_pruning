@@ -102,7 +102,7 @@ class alexnet(object):
 
     def conv_layer(self, x, name, padding = 'SAME', stride = 1,
         split = 1, data_format = 'NHWC', prune = False):
-        
+
         channel_axis = 3 if data_format == 'NHWC' else 1
         with tf.variable_scope(name, reuse = True):
             w = tf.get_variable('w')
@@ -137,7 +137,7 @@ class alexnet(object):
         self.keys = ['conv1', 'conv2', 'conv3', 'conv4', 'conv5', 'fc6', 'fc7', 'fc8']
         kernel_shapes = [
             [12,12,3,96],
-            [5,5,38,256],
+            [5,5,48,256],
             [3,3,256,384],
             [3, 3, 192, 384],
             [3, 3, 192, 256],
