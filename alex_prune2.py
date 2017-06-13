@@ -98,7 +98,11 @@ def inference(model):
     data_test = get_data('val', BATCH_SIZE)
     data_test.reset_state()
     generator = data_test.get_data()
+
+    init = tf.global_variables_initializer()
+    
     with tf.Session() as sess:
+        sess.run(init)
         for dp in generator:
             top5_val = sess.run(top5_error, feed_dict = {
                 model.images:dp[0],
