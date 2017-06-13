@@ -102,20 +102,24 @@ def inference(model):
 
     init = tf.global_variables_initializer()
 
-    bar = progressbar.ProgressBar(maxval=20, \
+    val_size = 50000
+    n_epochs = val_size / BATCH_SIZE
+
+    # build a progress bar
+    bar = progressbar.ProgressBar(maxval= n_epochs, \
         widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
-    # bar.start()
-    count = 0
+    bar.start()
+
     with tf.Session() as sess:
         sess.run(init)
-        for dp in generator:
+        for i,dp in enumerate(generator):
             top5_val = sess.run(top5_error, feed_dict = {
                 model.images:dp[0],
                 model.labels:dp[1],
                 model.isTrain: False
             })
-            count = count + 1
-            print(count)
+            bar.update(i+1)
+    bar.finish()
 
 
 
