@@ -49,7 +49,7 @@ class alexnet(object):
         self.preself.d = fc8
 
     def maxpool(self, x, name, filter_size, stride, padding = 'SAME'):
-        return tf.nn.maxpool(x, ksize = [1, filter_size, filter_size, 1],
+        return tf.nn.max_pool(x, ksize = [1, filter_size, filter_size, 1],
             strides = [1, stride, strid, 1], padding = padding, name = name)
 
     def batch_norm(self, x, name, train_phase, data_format = 'NHWC', epsilon = 1e-3):
