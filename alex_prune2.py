@@ -123,8 +123,7 @@ def inference(model):
             n_wrong_pred += np.sum(top5_val)
             n_imgs += top5_val.size
             bar.update(i+1)
-            print(n_wrong_pred)
-            print(n_imgs)
+    print('validation top 5 error rate is {}'.format(n_wrong_pred/float(n_imgs)))
     bar.finish()
 
 
