@@ -39,7 +39,9 @@ class alexnet(object):
         norm5 = self.batch_norm(conv5, 'norm5', train_phase = self.isTrain)
         pool5 = self.maxpool(norm5, 'pool5', 3, 2, padding = 'VALID')
 
-        fc6 = self.fc_layer(pool5, 'fc6', prune = True)
+
+        flattened = tf.reshape(pool5, [-1, 6*6*256])
+        fc6 = self.fc_layer(flattened, 'fc6', prune = True)
         norm6 = self.batch_norm(fc6, 'norm6', train_phase = self.isTrain)
 
         fc7 = self.fc_layer(norm6, 'fc7', prune = True)
