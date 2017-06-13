@@ -25,6 +25,7 @@ class alexnet(object):
         imgs = self.images
 
         conv1 = self.conv_layer(imgs, 'conv1', padding = 'VALID', stride = 4, prune = True)
+        print(conv1.get_shape())
         pool1 = self.maxpool(conv1, 'pool1', 3, 2, padding = 'VALID')
         lrn1 = self.lrn(pool1, 'lrn1')
 
