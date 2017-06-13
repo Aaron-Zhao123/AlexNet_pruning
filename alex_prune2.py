@@ -75,7 +75,8 @@ def get_data(dataset_name, BATCH_SIZE):
     return ds
 
 def test():
-    global BATCH_SIZE = 128
+    global BATCH_SIZE
+    BATCH_SIZE = 128
     isLoad = False
 
     data_train = get_data('train', BATCH_SIZE)
