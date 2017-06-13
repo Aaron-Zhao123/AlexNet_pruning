@@ -79,7 +79,9 @@ class alexnet(object):
                 name = 'beta', trainable = True)
             gamma = tf.Variable(tf.constant(1.0, shape = [n_out]),
                 name = 'gamma', trainable = True)
-            batch_mean, batch_var = tf.nn.moments(x, [0,1,2], name = 'moments')
+            axis = list(range(len(x.get_shape())-1))
+            batch_mean, batch_var = tf.nn.moments(x, axis, name = 'moments')
+
             ema = tf.train.ExponentialMovingAverage(decay = 0.5)
 
             def mean_var_with_update():
