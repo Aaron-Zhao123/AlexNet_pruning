@@ -13,6 +13,7 @@ from tensorpack.tfutils.summary import *
 from tensorpack.tfutils.varreplace import remap_variables
 
 import alexnet_model
+import progressbar
 
 
 def get_data(dataset_name, BATCH_SIZE):
@@ -101,16 +102,20 @@ def inference(model):
 
     init = tf.global_variables_initializer()
 
+    bar = progressbar.ProgressBar(maxval=20, \
+        widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+    # bar.start()
+    count = 0
     with tf.Session() as sess:
         sess.run(init)
         for dp in generator:
-            # print(np.shape(dp[0]))
-            # print(np.shape(dp[1]))
             top5_val = sess.run(top5_error, feed_dict = {
                 model.images:dp[0],
                 model.labels:dp[1],
                 model.isTrain: False
             })
+            count = count + 1
+            print(count)
 
 
 
