@@ -152,7 +152,7 @@ class alexnet(object):
         """
         self.keys = ['conv1', 'conv2', 'conv3', 'conv4', 'conv5', 'fc6', 'fc7', 'fc8']
         kernel_shapes = [
-            [12,12,3,96],
+            [11,11,3,96],
             [5,5,48,256],
             [3,3,256,384],
             [3, 3, 192, 384],
