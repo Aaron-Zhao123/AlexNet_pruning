@@ -44,12 +44,12 @@ class alexnet(object):
 
         flattened = tf.reshape(pool5, [-1, 6*6*256])
         fc6 = self.fc_layer(flattened, 'fc6', prune = True)
-        norm6 = self.batch_norm(fc6, 'norm6', train_phase = self.isTrain)
+        # norm6 = self.batch_norm(fc6, 'norm6', train_phase = self.isTrain)
 
-        fc7 = self.fc_layer(norm6, 'fc7', prune = True)
-        norm7 = self.batch_norm(fc7, 'norm7', train_phase = self.isTrain)
+        fc7 = self.fc_layer(fc6, 'fc7', prune = True)
+        # norm7 = self.batch_norm(fc7, 'norm7', train_phase = self.isTrain)
 
-        fc8 = self.fc_layer(norm7, 'fc8', prune = True, apply_relu = False)
+        fc8 = self.fc_layer(fc7, 'fc8', prune = True, apply_relu = False)
         self.pred = fc8
 
     def maxpool(self, x, name, filter_size, stride, padding = 'SAME'):
