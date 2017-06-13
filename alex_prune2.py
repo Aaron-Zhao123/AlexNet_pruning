@@ -104,13 +104,13 @@ def inference(model):
     with tf.Session() as sess:
         sess.run(init)
         for dp in generator:
-            print(np.shape(dp[0]))
-            print(np.shape(dp[1]))
-            # top5_val = sess.run(top5_error, feed_dict = {
-            #     model.images:dp[0],
-            #     model.labels:dp[1],
-            #     model.isTrain: False
-            # })
+            # print(np.shape(dp[0]))
+            # print(np.shape(dp[1]))
+            top5_val = sess.run(top5_error, feed_dict = {
+                model.images:dp[0],
+                model.labels:dp[1],
+                model.isTrain: False
+            })
 
 
 
