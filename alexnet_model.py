@@ -24,38 +24,49 @@ class alexnet(object):
         imgs = self.images
 
         conv1 = self.conv_layer(imgs, 'conv1', padding = 'VALID', stride = 4, prune = True)
-        conv2 = self.conv_layer(conv1, 'conv2', prune = True, split = 2)
-        norm2 = self.batch_norm(conv2, 'norm2', train_phase = self.isTrain)
-        pool2 = self.maxpool(norm2, 'pool2', 3, 2)
+        lrn1 = self.lrn(conv1, 'lrn1')
+        pool1 = self.maxpool(norm2, 'pool1', 3, 2, padding = 'VALID')
+
+        conv2 = self.conv_layer(pool1, 'conv2', prune = True, split = 2)
+        lrn2 = self.lrn(conv2, 'lrn2')
+        # norm2 = self.batch_norm(conv2, 'norm2', train_phase = self.isTrain)
+        pool2 = self.maxpool(norm2, 'pool2', 3, 2, padding = 'VALID')
 
         conv3 = self.conv_layer(pool2, 'conv3', prune = True)
-        norm3 = self.batch_norm(conv3, 'norm3', train_phase = self.isTrain)
-        pool3 = self.maxpool(norm3, 'pool3', 3, 2)
-
+        # norm3 = self.batch_norm(conv3, 'norm3', train_phase = self.isTrain)
+        # pool3 = self.maxpool(norm3, 'pool3', 3, 2)
         conv4 = self.conv_layer(pool3, 'conv4', prune = True, split = 2)
-        norm4 = self.batch_norm(conv4, 'norm4', train_phase = self.isTrain)
-
+        # norm4 = self.batch_norm(conv4, 'norm4', train_phase = self.isTrain)
         conv5 = self.conv_layer(norm4, 'conv5', prune = True, split = 2)
-        norm5 = self.batch_norm(conv5, 'norm5', train_phase = self.isTrain)
-        pool5 = self.maxpool(norm5, 'pool5', 3, 2, padding = 'VALID')
+        # norm5 = self.batch_norm(conv5, 'norm5', train_phase = self.isTrain)
+        pool5 = self.maxpool(conv5, 'pool5', 3, 2, padding = 'VALID')
 
 
         flattened = tf.reshape(pool5, [-1, 6*6*256])
         fc6 = self.fc_layer(flattened, 'fc6', prune = True)
-        # norm6 = self.batch_norm(fc6, 'norm6', train_phase = self.isTrain)
+        norm6 = self.batch_norm(fc6, 'norm6', train_phase = self.isTrain)
 
-        fc7 = self.fc_layer(fc6, 'fc7', prune = True)
-        # norm7 = self.batch_norm(fc7, 'norm7', train_phase = self.isTrain)
+        fc7 = self.fc_layer(norm6, 'fc7', prune = True)
+        norm7 = self.batch_norm(fc7, 'norm7', train_phase = self.isTrain)
 
-        fc8 = self.fc_layer(fc7, 'fc8', prune = True, apply_relu = False)
+        fc8 = self.fc_layer(norm7, 'fc8', prune = True, apply_relu = False)
         self.pred = fc8
 
     def maxpool(self, x, name, filter_size, stride, padding = 'SAME'):
         return tf.nn.max_pool(x, ksize = [1, filter_size, filter_size, 1],
             strides = [1, stride, stride, 1], padding = padding, name = name)
 
+    def lrn(self, x, name, depth_radius = 2, bias = 1.0, alpha = 2e-5, beta = 0.75):
+        """
+        local response normalization
+        ref: https://www.tensorflow.org/api_docs/python/tf/nn/local_response_normalization
+        """
+        return tf.nn.lrn(x, depth_radius = depth_radius, bias = bias,
+            alpha = alpha, beta = beta, name = name)
+
     def batch_norm(self, x, name, train_phase, data_format = 'NHWC', epsilon = 1e-3):
         """
+        TODO: this batch norm has an error
         refs:
         1. https://github.com/ppwwyyxx/tensorpack/blob/a3674b47bfbf0c8b04aaa85d428b109fea0128ca/tensorpack/models/batch_norm.py
         2. https://gist.github.com/tomokishii/0ce3bdac1588b5cca9fa5fbdf6e1c412
