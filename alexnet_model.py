@@ -108,13 +108,13 @@ class alexnet(object):
             if prune:
                 w = w * self.weights_masks[name]
             if split == 1:
-                # conv = tf.nn.conv2d(x, w, stride, padding, data_format=data_format)
-                conv = tf.nn.conv2d(x, w, stride, padding)
+                conv = tf.nn.conv2d(x, w, [1, stride, stride, 1], padding, data_format=data_format)
+                # conv = tf.nn.conv2d(x, w, stride, padding)
             else:
                 inputs = tf.split(x, split, channel_axis)
                 kernels = tf.split(w, split, 3)
-                # outputs = [tf.nn.conv2d(i, k, stride, padding, data_format=data_format)
-                outputs = [tf.nn.conv2d(i, k, stride, padding)
+                # outputs = [tf.nn.conv2d(i, k, stride, padding)
+                outputs = [tf.nn.conv2d(i, k, [1, stride, stride, 1], padding, data_format=data_format)
                            for i, k in zip(inputs, kernels)]
                 conv = tf.concat(outputs, channel_axis)
 
