@@ -103,7 +103,7 @@ def inference(model):
             top5_val = sess.run(top5_error, feed_dict = {
                 model.images:dp[0],
                 model.labels:dp[1],
-                model.train_phase: False
+                model.isTrain: False
             })
 
 
