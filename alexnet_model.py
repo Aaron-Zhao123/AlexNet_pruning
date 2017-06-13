@@ -39,14 +39,14 @@ class alexnet(object):
         norm5 = self.batch_norm(conv5, 'norm5', train_phase = self.isTrain)
         pool5 = self.maxpool(norm5, 'pool5', 3, 2, padding = 'VALID')
 
-        fc6 = fcself._layer(pool5, 'fc6', prune = True)
+        fc6 = self.fc_layer(pool5, 'fc6', prune = True)
         norm6 = self.batch_norm(fc6, 'norm6', train_phase = self.isTrain)
 
-        fc7 = fcself._layer(norm6, 'fc7', prune = True)
+        fc7 = self.fc_layer(norm6, 'fc7', prune = True)
         norm7 = self.batch_norm(fc7, 'norm7', train_phase = self.isTrain)
 
-        fc8 = fcself._layer(norm7, 'fc8', prune = True, apply_relu = False)
-        self.preself.d = fc8
+        fc8 = self.fc_layer(norm7, 'fc8', prune = True, apply_relu = False)
+        self.pred = fc8
 
     def maxpool(self, x, name, filter_size, stride, padding = 'SAME'):
         return tf.nn.max_pool(x, ksize = [1, filter_size, filter_size, 1],
