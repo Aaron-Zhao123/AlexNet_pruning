@@ -102,6 +102,8 @@ class alexnet(object):
 
     def conv_layer(self, x, name, padding = 'SAME', stride = 1,
         split = 1, data_format = 'NHWC', prune = False):
+        
+        channel_axis = 3 if data_format == 'NHWC' else 1
         with tf.variable_scope(name, reuse = True):
             w = tf.get_variable('w')
             b = tf.get_variable('b')
